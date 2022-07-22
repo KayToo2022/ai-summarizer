@@ -1,24 +1,36 @@
 import logo from './logo.svg';
 import './App.css';
 
+import {defaultTheme, Provider, Switch, Flex, View} from '@adobe/react-spectrum';
+import { useState, useEffect } from 'react';
+
+import {Header} from './components/Header/Header'
+import { PayloadConfig } from './components/PayloadConfig'
+
 function App() {
+  const [isDark, toggleDark] = useState(window.matchMedia("(prefers-color-scheme: dark)"))
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <Provider 
+      theme={defaultTheme}
+      colorScheme = {isDark ? 'dark' : 'light'}
+    >
+      <View height='100vh'>
+        <Flex direction='column' height='100%'>
+          {/* Content goes here */}
+          <Header
+            {...{
+              isDark: isDark,
+              onThemeToggle: toggleDark
+            }}
+          />
+
+          <PayloadConfig/>
+          
+        </Flex>
+      </View>
+      
+      
+    </Provider>
   );
 }
 
